@@ -127,7 +127,6 @@ class JavaToMavenAgent:
 
         lines.append("\n========== Dependency Resolution Summary ==========\n")
 
-        # ---- 1. Total JARs found ----
         jars = (
             self.raw_dependencies.get("jars", [])
             if self.raw_dependencies else []
@@ -139,7 +138,7 @@ class JavaToMavenAgent:
         else:
             lines.append("   None")
 
-        # ---- Prepare resolved / unresolved from authoritative source ----
+        #  Prepare resolved / unresolved
         resolved = (
             self.mapped_dependencies.get("resolved", [])
             if self.mapped_dependencies else []
@@ -149,7 +148,6 @@ class JavaToMavenAgent:
             if self.mapped_dependencies else []
         )
 
-        # ---- 2. Knowledge Base resolved ----
         kb_resolved = [d for d in resolved if d.get("source") == "Knowledge Base"]
         lines.append(f"\n2. Dependencies added using Knowledge Base: {len(kb_resolved)}")
         if kb_resolved:
@@ -160,7 +158,7 @@ class JavaToMavenAgent:
         else:
             lines.append("   None")
 
-        # ---- 3. Platform dependencies ----
+        #  Platform dependencies 
         platform_resolved = [d for d in resolved if d.get("source") == "PLATFORM"]
         lines.append(f"\n3. Platform dependencies added: {len(platform_resolved)}")
         if platform_resolved:
@@ -171,7 +169,7 @@ class JavaToMavenAgent:
         else:
             lines.append("   None")
 
-        # ---- 4. Maven Central resolved ----
+        #  Maven Central resolved 
         mc_resolved = [d for d in resolved if d.get("source") == "MAVEN_CENTRAL"]
         lines.append(f"\n4. Dependencies added using Maven Central: {len(mc_resolved)}")
         if mc_resolved:
@@ -182,7 +180,7 @@ class JavaToMavenAgent:
         else:
             lines.append("   None")
 
-        # ---- 5. Unresolved dependencies ----
+        #  Unresolved dependencies
         lines.append(f"\n5. Unresolved dependencies: {len(unresolved)}")
         if unresolved:
             for jar in unresolved:
