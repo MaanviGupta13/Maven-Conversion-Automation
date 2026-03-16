@@ -1,128 +1,86 @@
 Java → Maven Conversion Agent
 
-This project is a rule-based Python agent that converts a normal (non-Maven) Java project into a Maven project automatically.
+This project is a rule-based Python agent that converts a non-Maven Java project into a Maven project automatically.
 
-Many older Java projects store dependencies as JAR files and do not follow a standard build structure. This agent analyzes such projects, detects dependencies, reorganizes the project into the Maven directory structure, and generates a pom.xml file.
+Many legacy Java projects store dependencies as JAR files inside folders like lib/, WEB-INF/lib/, or dist/lib/ and do not follow the standard Maven directory structure. This agent analyzes such projects, detects dependencies from JAR files, maps them to Maven coordinates using a knowledge base, restructures the project into the Maven layout, and generates a pom.xml.
 
-
-Agent Workflow
-
-User → Input Project Path → Agent Brain → Detection Tools → Conversion → Maven Project → Dependency Report
+After conversion, the project can be built using Maven.
 
 
-Agent Steps
+How to Run the Project
 
-1. User Input
-User provides the path of a Java project that is not using Maven.
+1. Start the agent
 
-2. Agent Brain
-The main workflow is controlled by agent_core.py which coordinates all modules.
-
-3. Project Detection
-project_detector.py identifies the type of Java project:
-- Simple Java project
-- JSP/Web project
-- Ant-based project
-
-4. Dependency Discovery
-dependency_finder.py scans the project to find JAR files from locations like:
-- lib/
-- dist/lib/
-- WEB-INF/lib/
-- build.xml
-
-5. Dependency Mapping
-dependency_mapper.py maps detected JAR files to Maven dependencies using a knowledge base JSON file.
-
-Example:
-servlet-api.jar → javax.servlet:javax.servlet-api
-
-6. Project Conversion
-project_converter.py reorganizes the project into Maven standard structure.
-
-Before:
-
-project/
-src/
-lib/
-classes/
-
-After:
-
-project/
-src/main/java
-src/main/resources
-src/test/java
-pom.xml
-
-7. POM Generation
-pom_generator.py creates the pom.xml with the required dependencies and scopes.
-
-8. Result
-The output project becomes Maven compatible and can be built using Maven commands.
-
-9. Explanation
-The agent prints a dependency resolution report showing how dependencies were mapped.
-
-
-Project Structure
-
-java-maven-agent/
-
-main.py                (entry point)
-agent_core.py          (controls workflow)
-
-project_detector.py    (detect project type)
-dependency_finder.py   (find JAR dependencies)
-dependency_mapper.py   (map JARs to Maven dependencies)
-
-project_converter.py   (convert folder structure)
-pom_generator.py       (generate pom.xml)
-
-knowledge_base/
-dependency_mapping.json
-
-
-Features
-
-- Rule-based agent system
-- Automatic Java project detection
-- JAR dependency scanning
-- Knowledge-base dependency mapping
-- Maven directory restructuring
-- Automatic pom.xml generation
-- Dependency resolution report
-
-
-How to Run
-
-Run the program:
+Run the main program:
 
 python main.py
 
-Then provide the path to the Java project.
+You will see the interactive agent prompt.
+
+
+2. Set the project path
+
+Provide the path to the non-Maven Java project using:
+
+path <project-directory>
 
 Example:
 
-Enter project path:
-C:/projects/legacy-java-project
+path "C:/projects/legacy-java-project"
+
+The agent will store the project path for analysis.
 
 
-Output
+3. Analyze the project
 
-The project is converted to Maven format:
+Run:
 
-project/
-src/main/java
-src/main/resources
-src/test/java
-pom.xml
+analyze
 
-Now the project can be built with:
+The agent will inspect the project and display information such as:
 
-mvn clean install
+- Project type (Simple / JSP / Ant)
+- Number of JAR dependencies found
+- Whether a build.xml file exists
 
 
-Author
+4. Convert the project
 
-Maanvi Gupta
+Run:
+
+convert
+
+During this step the agent will:
+
+- Load the dependency knowledge base
+- Map JAR files to Maven dependencies
+- Add required platform dependencies (Servlet API, JSP API, JUnit)
+- Restructure the project into Maven directory layout
+- Generate a pom.xml
+
+
+5. View dependency resolution report (optional)
+
+After conversion, the agent can display a dependency resolution report showing:
+
+- Total JARs discovered
+- Dependencies resolved using the knowledge base
+- Platform dependencies added automatically
+- Dependencies resolved from Maven Central
+- Any unresolved dependencies
+
+
+6. Build the project
+
+The agent can optionally run:
+
+mvn clean install -e
+
+If the build succeeds, the project is now a fully buildable Maven project.
+
+
+Exit
+
+To close the agent, type:
+
+exit
