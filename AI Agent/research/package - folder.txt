@@ -1,0 +1,10 @@
+package - folder 
+import classes from a package 
+OR
+package.class 
+
+
+priority 
+- JSP 
+-Normal
+- EJB

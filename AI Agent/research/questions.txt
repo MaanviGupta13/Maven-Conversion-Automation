@@ -1,0 +1,6 @@
+if pom.xml present then exit
+if not check if build.xml present then map dependencies-file structure-mvn clean install and exit
+if not check if jars are present then check if present in knowledge base or not
+if present in knowledge base then map dependencies-file structure-mvn clean install and exit
+if not present in knowledge base then ?
+if jars also not present ?

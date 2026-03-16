@@ -1,0 +1,19 @@
+simple java project-
+lib/**/*.jar
+libs/**/*.jar
+
+JSP project-
+WebContent/WEB-INF/lib/**/*.jar
+OR
+src/main/webapp/WEB-INF/lib/**/*.jar
+if jars not present-
+
+ANT project
+lib/**/*.jar
+build.xml
+
+Enterprise Project-
+- EAR-EARContent/lib/**/*.jar
+      application/lib/
+- WAR-**/*.war → unzip → WEB-INF/lib/**/*.jar
+- EJB-someEJB.jar → inside → lib/**/*.jar
